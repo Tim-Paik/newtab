@@ -9,6 +9,9 @@
     <meta name="theme-color" content="#4F4F4F" />
     <meta name="referrer" content="never" />
     <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <title>新标签页</title>
     <style>
@@ -32,7 +35,13 @@
         }
 
         #app {
-            background: center no-repeat url("https://api.sunweihu.com/api/bing1/api.php");
+            background: center no-repeat url("https://bing.getlove.cn/bingImage");
+            /*Bing每日https://bing.getlove.cn/bingImage*/
+            /*Bing每日http://bing.getlove.cn/bingImage*/
+            /*Bing每日http://www.neweb.top/bing.php*/
+            /*二次元https://api.ixiaowai.cn/api/api.php*/
+            /*Menhear酱https://api.ixiaowai.cn/mcapi/mcapi.php*/
+            /*风景https://api.ixiaowai.cn/gqapi/gqapi.php*/
             background-size: cover;
         }
 
@@ -41,7 +50,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding-bottom: 10%;
+            padding: 1rem;
+            padding-bottom: 15%;
         }
 
         #switch {
@@ -55,12 +65,12 @@
             flex: auto;
             color: #ffffff;
             opacity: 0.6;
-            text-shadow: 1px 1px 5px #000000;
+            text-shadow: 1px 1px 5px #000000, 0px 0px 1px #000000;
             transition: opacity 0.2s ease;
         }
 
         .switch:hover {
-            opacity: 1.0;
+            opacity: 1.0 !important;
             transition: opacity 0.2s ease;
         }
 
@@ -125,6 +135,11 @@
             transition: background 0.2s ease;
         }
 
+        #go:active {
+            background: #474747;
+            transition: background 0.2s ease;
+        }
+
         @media screen and (max-width: 700px) {
 
             #searchEngine,
@@ -133,8 +148,8 @@
             }
 
             #searchForm {
-                width: 92%;
-                padding-bottom: calc(10% + (700px - 100%) * 0.3);
+                width: 96%;
+                padding-bottom: calc(15% + (700px - 100%) * 0.3);
             }
 
             #searchBox {
@@ -148,17 +163,18 @@
             }
         }
     </style>
+    <style id="css"></style>
 </head>
 
 <body>
     <div id="app">
         <div id="searchForm">
             <ui id="switch">
-                <li class="switch" id="web">网页</li>
-                <li class="switch" id="images">图片</li>
-                <li class="switch" id="translate">翻译</li>
-                <li class="switch" id="dict">词典</li>
-                <li class="switch" id="map">地图</li>
+                <li class="switch" id="web" onclick="switchTo('web')">网页</li>
+                <li class="switch" id="images" onclick="switchTo('images')">图片</li>
+                <li class="switch" id="translate" onclick="switchTo('translate')">翻译</li>
+                <li class="switch" id="dict" onclick="switchTo('dict')">词典</li>
+                <li class="switch" id="map" onclick="switchTo('map')">地图</li>
             </ui>
             <div id="searchBox">
                 <button type="button" id="searchEngine">
@@ -168,8 +184,9 @@
                         </path>
                     </svg>
                 </button>
-                <input type="search" id="search" placeholder="搜索..." name="q" value />
-                <button type="button" id="go">
+                <input type="search" id="search" placeholder="搜索..." name="q"
+                    onkeypress="if(event.keyCode==13){search()}" value />
+                <button type="button" id="go" onclick="search()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
                         style="width: 32px; height: 32px;" fill="#ffffff">
                         <path
@@ -181,7 +198,53 @@
         </div>
     </div>
     <script>
+        var searchURL = 'https://cn.bing.com/search?q='
+        var css = document.getElementById('css')
+        var app = document.getElementById('app')
+        var searchBox = document.getElementById('searchBox')
         document.getElementById('web').style.opacity = 1.0
+
+        document.getElementById('search').onfocus = function () {
+            searchBox.style.boxShadow = '3px 4px 11px 0 rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(0, 0, 0, 0.16)'
+        }
+        document.getElementById('search').onblur = function () {
+            searchBox.style.boxShadow = '0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08)'
+        }
+        var fc = function () { document.getElementById('search').focus() }
+        setTimeout(fc, 200)
+
+        switchTo = function (type) {
+            var ele = document.getElementsByClassName('switch')
+            for (i = 0; i < ele.length; i++) {
+                ele[i].style.opacity = 0.6
+            }
+            switch (type) {
+                case 'web':
+                    searchURL = 'https://cn.bing.com/search?q='
+                    document.getElementById('web').style.opacity = 1.0
+                    break
+                case 'images':
+                    searchURL = 'https://cn.bing.com/images/search?q='
+                    document.getElementById('images').style.opacity = 1.0
+                    break
+                case 'translate':
+                    searchURL = 'https://translate.google.cn/?sl=auto&tl=zh-CN&op=translate&text='
+                    document.getElementById('translate').style.opacity = 1.0
+                    break
+                case 'dict':
+                    searchURL = 'https://cn.bing.com/dict/search?q='
+                    document.getElementById('dict').style.opacity = 1.0
+                    break
+                case 'map':
+                    searchURL = 'https://ditu.amap.com/search?query='
+                    document.getElementById('map').style.opacity = 1.0
+                    break
+            }
+        }
+
+        search = function () {
+            window.location = searchURL + document.getElementById('search').value
+        }
     </script>
 </body>
 
