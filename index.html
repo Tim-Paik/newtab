@@ -35,7 +35,7 @@
         }
 
         #app {
-            background: center no-repeat url("https://bing.getlove.cn/bingImage");
+            background: center no-repeat url("http://www.neweb.top/bing.php");
             /*Bing每日https://bing.getlove.cn/bingImage*/
             /*Bing每日http://bing.getlove.cn/bingImage*/
             /*Bing每日http://www.neweb.top/bing.php*/
@@ -59,6 +59,7 @@
             flex-direction: row;
             list-style: none;
             margin: 1rem;
+            padding: 0;
         }
 
         .switch {
@@ -108,10 +109,11 @@
             width: 10%;
             border-radius: 0.5rem 0 0 0.5rem;
             transition: background 0.4s ease;
+            fill: #000000;
         }
 
         #searchEngine:hover {
-            background: #cccccc;
+            background: #b2dfdb;
             transition: background 0.2s ease;
         }
 
@@ -123,20 +125,21 @@
         }
 
         #go {
-            background: #717171;
+            background: #26a69a;
             width: 10%;
             padding-top: 5px;
             border-radius: 0 0.5rem 0.5rem 0;
             transition: background 0.4s ease;
+            fill: #ffffff;
         }
 
         #go:hover {
-            background: #5c5c5c;
+            background: #009688;
             transition: background 0.2s ease;
         }
 
         #go:active {
-            background: #474747;
+            background: #00897b;
             transition: background 0.2s ease;
         }
 
@@ -162,22 +165,85 @@
                 margin: 5% auto 5%;
             }
         }
+
+        :root {
+            --background-color: #ffffff;
+            --button-color-light: #ffffff;
+            --button-hover-light: #b2dfdb;
+            --button-active-light: #80cbc4;
+            --button-color: #26a69a;
+            --button-hover: #009688;
+            --button-active: #00897b;
+            --text-color: #ffffff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: #004d40;
+                --button-color-light: #004d40;
+                --button-hover-light: #004035;
+                --button-active-light: #00332a;
+                --button-color: #00594f;
+                --button-hover: #00665a;
+                --button-active: #004035;
+                --text-color: #000000;
+            }
+
+            #searchEngine {
+                fill: #ffffff;
+            }
+
+            #go {
+                fill: #000000;
+            }
+        }
+
+        .switch {
+            color: var(--text-color);
+        }
+
+        #searchBox {
+            background: var(--background-color);
+        }
+
+        #searchEngine {
+            background: var(--button-color-light);
+        }
+
+        #searchEngine:hover {
+            background: var(--button-hover-light);
+        }
+
+        #search {
+            background: var(--background-color);
+        }
+
+        #go {
+            background: var(--button-color);
+        }
+
+        #go:hover {
+            background: var(--button-hover);
+        }
+
+        #go:active {
+            background: var(--button-active);
+        }
     </style>
-    <style id="css"></style>
 </head>
 
 <body>
     <div id="app">
         <div id="searchForm">
-            <ui id="switch">
+            <ul id="switch">
                 <li class="switch" id="web" onclick="switchTo('web')">网页</li>
                 <li class="switch" id="images" onclick="switchTo('images')">图片</li>
                 <li class="switch" id="translate" onclick="switchTo('translate')">翻译</li>
                 <li class="switch" id="dict" onclick="switchTo('dict')">词典</li>
                 <li class="switch" id="map" onclick="switchTo('map')">地图</li>
-            </ui>
+            </ul>
             <div id="searchBox">
-                <button type="button" id="searchEngine">
+                <button type="button" id="searchEngine" aria-label="Switch Search Engine">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
                         style="width: 32px; height: 32px;">
                         <path d="M5,3V19L8.72,21L18,15.82V11.73H18L9.77,8.95L11.38,12.84L13.94,14L8.7,16.92V4.27L5,3">
@@ -186,9 +252,9 @@
                 </button>
                 <input type="search" id="search" placeholder="搜索..." name="q"
                     onkeypress="if(event.keyCode==13){search()}" value />
-                <button type="button" id="go" onclick="search()">
+                <button type="button" id="go" onclick="search()" aria-label="Search">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
-                        style="width: 32px; height: 32px;" fill="#ffffff">
+                        style="width: 32px; height: 32px;">
                         <path
                             d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z">
                         </path>
@@ -199,7 +265,6 @@
     </div>
     <script>
         var searchURL = 'https://cn.bing.com/search?q='
-        var css = document.getElementById('css')
         var app = document.getElementById('app')
         var searchBox = document.getElementById('searchBox')
         document.getElementById('web').style.opacity = 1.0
