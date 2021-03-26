@@ -35,13 +35,6 @@
         }
 
         #app {
-            background: center no-repeat url("http://www.neweb.top/bing.php");
-            /*Bing每日https://bing.getlove.cn/bingImage*/
-            /*Bing每日http://bing.getlove.cn/bingImage*/
-            /*Bing每日http://www.neweb.top/bing.php*/
-            /*二次元https://api.ixiaowai.cn/api/api.php*/
-            /*Menhear酱https://api.ixiaowai.cn/mcapi/mcapi.php*/
-            /*风景https://api.ixiaowai.cn/gqapi/gqapi.php*/
             background-size: cover;
         }
 
@@ -186,7 +179,11 @@
                 --button-color: #00594f;
                 --button-hover: #00665a;
                 --button-active: #004035;
-                --text-color: #000000;
+                --text-color: #ffffff;
+            }
+
+            #search {
+                color: #b2dfdb;
             }
 
             #searchEngine {
@@ -265,7 +262,7 @@
     </div>
     <script>
         var searchURL = 'https://cn.bing.com/search?q='
-        var app = document.getElementById('app')
+        //var app = 
         var searchBox = document.getElementById('searchBox')
         document.getElementById('web').style.opacity = 1.0
 
@@ -310,7 +307,18 @@
         search = function () {
             window.location = searchURL + document.getElementById('search').value
         }
+
+        bgimage = function (bginfo) {
+            console.log(bginfo)
+            if (bginfo.status.code != 200) {
+                console.log(bginfo.status.message)
+                document.getElementById('app').style.background = 'center no-repeat url("https://infinitypro-img.infinitynewtab.com/findaphoto/bigLink/15175.jpg")'
+                return
+            }
+            document.getElementById('app').style.background = 'center no-repeat url("' + bginfo.data.url + '")'
+        }
     </script>
+    <script src="https://bing.ioliu.cn/v1?callback=bgimage"></script>
 </body>
 
 </html>
