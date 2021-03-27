@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="Description" content="新标签页">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="theme-color" content="#00897b" />
     <meta name="referrer" content="never" />
@@ -305,7 +306,7 @@
         }
 
         search = function () {
-            window.location = searchURL + document.getElementById('search').value
+            window.location = encodeURI(searchURL + document.getElementById('search').value)
         }
 
         bgimage = function (bginfo) {
